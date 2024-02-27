@@ -31,7 +31,7 @@ class HomePage extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _HomePageState extends State<HomePage> {
-  CategoryModel _selectedCategory = const CategoryModel(id: 1, name: 'Action');
+  CategoryModel? _selectedCategory;
 
   final PagingController<int, MovieModel> _pagingController = PagingController(
     firstPageKey: 1,
@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage> {
               _popular(),
               const Gap(24),
               ..._topRated(),
+              const Gap(48),
             ],
           ),
         ],
@@ -153,14 +154,14 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
-        const Gap(8),
+        const Gap(12),
         BlocBuilder<HomeCubit, HomeState>(
           buildWhen: (previous, current) => _movieCategoryBuildWhen(current),
           builder: (context, state) {
             return MovieHorizontalList(
               source: NavigationSource.category,
               onTap: _navigateToDetail,
-              movies: context.read<HomeCubit>().movies,
+              movies: context.read<HomeCubit>().categoryMovies,
             );
           },
         )
@@ -174,12 +175,12 @@ class _HomePageState extends State<HomePage> {
       children: [
         _sectionTitle('Popular Movies'),
         BlocBuilder<HomeCubit, HomeState>(
-          buildWhen: (previous, current) => _movieCategoryBuildWhen(current),
+          buildWhen: (previous, current) => _moviePopularBuildWhen(current),
           builder: (context, state) {
             return MovieHorizontalList(
               source: NavigationSource.popular,
               onTap: _navigateToDetail,
-              movies: context.read<HomeCubit>().movies,
+              movies: context.read<HomeCubit>().popularMovies,
             );
           },
         )
@@ -227,6 +228,11 @@ class _HomePageState extends State<HomePage> {
       current is GetMoviesByCategoryLoading ||
       current is GetMoviesByCategoryError;
 
+  bool _moviePopularBuildWhen(HomeState current) =>
+      current is GetMoviesPopularLoaded ||
+      current is GetMoviesPopularLoading ||
+      current is GetMoviesPopularError;
+
   void _onCategoryTap(CategoryModel category) {
     _selectedCategory = category;
 
@@ -236,7 +242,7 @@ class _HomePageState extends State<HomePage> {
   void _getInitialData() {
     _getBannerMovies();
     _getCategory();
-    _getMovieByCategory();
+    _getMoviePopular();
   }
 
   void _getBannerMovies() {
@@ -248,7 +254,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getMovieByCategory() {
-    context.read<HomeCubit>().getMovieByCategory(_selectedCategory);
+    if (_selectedCategory == null) return;
+
+    context.read<HomeCubit>().getMovieByCategory(_selectedCategory!);
+  }
+
+  void _getMoviePopular() {
+    context.read<HomeCubit>().getMoviePopular();
   }
 
   void _navigateToDetail(MovieModel post, NavigationSource source) {
@@ -270,6 +282,8 @@ class _HomePageState extends State<HomePage> {
   void _onBlocStateChange(HomeState state) {
     if (state is GetTopRatedMoviesLoaded) {
       _onTopRatedMoviesLoaded(state);
+    } else if (state is GetCategoryLoaded) {
+      _onCategoryLoaded(state);
     } else if (state is GetBannerMoviesError) {
       _showSnackbarError(state.message);
     } else if (state is GetCategoryError) {
@@ -292,5 +306,10 @@ class _HomePageState extends State<HomePage> {
 
   void _showSnackbarError(String message) {
     context.showSnackBar(message: message);
+  }
+
+  void _onCategoryLoaded(GetCategoryLoaded state) {
+    _selectedCategory = state.categories.first;
+    _getMovieByCategory();
   }
 }

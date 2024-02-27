@@ -21,12 +21,3 @@ class CategoryModel extends Equatable {
   @override
   List<Object?> get props => [id, name];
 }
-
-const dummyCategories = [
-  CategoryModel(id: 1, name: 'Action'),
-  CategoryModel(id: 2, name: 'Adventure'),
-  CategoryModel(id: 3, name: 'Comedy'),
-  CategoryModel(id: 4, name: 'Drama'),
-  CategoryModel(id: 5, name: 'Horror'),
-  CategoryModel(id: 6, name: 'Mystery'),
-];

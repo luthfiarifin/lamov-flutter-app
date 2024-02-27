@@ -27,10 +27,24 @@ class ApiClient {
         headers: headers,
       )
       ..interceptors.addAll([
+        _queryWrapper(),
         ...interceptors,
       ]);
 
     return dio;
+  }
+
+  InterceptorsWrapper _queryWrapper() {
+    return InterceptorsWrapper(
+      onRequest: (options, handler) {
+        options.queryParameters
+          ..putIfAbsent('api_key', () => ApiConstant.apiKey)
+          ..putIfAbsent('language', () => ApiConstant.language)
+          ..putIfAbsent('region', () => ApiConstant.region);
+
+        return handler.next(options);
+      },
+    );
   }
 
   Future<T> get<T>(

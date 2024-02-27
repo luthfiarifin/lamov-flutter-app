@@ -63,6 +63,23 @@ final class GetMoviesByCategoryError extends HomeState {
   });
 }
 
+final class GetMoviesPopularLoading extends HomeState {}
+
+final class GetMoviesPopularLoaded extends HomeState {
+  final List<MovieModel> movies;
+
+  const GetMoviesPopularLoaded({
+    required this.movies,
+  });
+}
+
+final class GetMoviesPopularError extends HomeState {
+  final String message;
+
+  const GetMoviesPopularError({
+    required this.message,
+  });
+}
 
 final class GetTopRatedMoviesLoading extends HomeState {}
 

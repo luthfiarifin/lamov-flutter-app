@@ -3,56 +3,103 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/domain/common/model/model.dart';
+import '../../../../core/domain/usecase.dart';
 import '../../domain/model/model.dart';
+import '../../domain/param/param.dart';
+import '../../domain/usecase/usecase.dart';
 
 part 'home_state.dart';
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
+  final GetMovieGenresUseCase _getMovieGenresUseCase;
+  final GetMoviesNowPlayingUseCase _getMoviesNowPlayingUseCase;
+  final GetMoviesDiscoverUseCase _getMoviesDiscoverUseCase;
+  final GetMoviesPopularUseCase _getMoviesPopularUseCase;
+  final GetMoviesTopRatedUseCase _getMoviesTopRatedUseCase;
+
+  HomeCubit(
+    this._getMovieGenresUseCase,
+    this._getMoviesNowPlayingUseCase,
+    this._getMoviesDiscoverUseCase,
+    this._getMoviesPopularUseCase,
+    this._getMoviesTopRatedUseCase,
+  ) : super(HomeInitial());
 
   List<CategoryModel>? categories;
   List<MovieModel>? bannerMovies;
-  List<MovieModel>? movies;
-
-  // TODO: using real data
+  List<MovieModel>? categoryMovies;
+  List<MovieModel>? popularMovies;
 
   void getBannerMovies() async {
     emit(GetBannerMoviesLoading());
 
-    await Future.delayed(const Duration(seconds: 3));
-    bannerMovies = dummyMovies;
-    emit(GetBannerMoviesLoaded(movies: bannerMovies ?? []));
+    _getMoviesNowPlayingUseCase(const GetMoviesPaginationParam())
+        .then((result) {
+      result.fold(
+        (failure) => emit(GetBannerMoviesError(message: failure.message)),
+        (data) {
+          bannerMovies = data.results.take(3).toList();
+          emit(GetBannerMoviesLoaded(movies: bannerMovies ?? []));
+        },
+      );
+    });
   }
 
   void getCategories() async {
     emit(GetCategoryLoading());
 
-    await Future.delayed(const Duration(seconds: 2));
-    categories = dummyCategories;
-    emit(GetCategoryLoaded(categories: categories ?? []));
+    _getMovieGenresUseCase(NoParams()).then((result) {
+      result.fold(
+        (failure) => emit(GetCategoryError(message: failure.message)),
+        (data) {
+          categories = data;
+          emit(GetCategoryLoaded(categories: categories ?? []));
+        },
+      );
+    });
   }
 
   void getMovieByCategory(CategoryModel selected) async {
-    movies = null;
+    categoryMovies = null;
 
     emit(GetMoviesByCategoryLoading());
+    _getMoviesDiscoverUseCase(GetMoviesPaginationParam(categoryId: selected.id))
+        .then((result) {
+      result.fold(
+        (failure) => emit(GetMoviesByCategoryError(message: failure.message)),
+        (data) {
+          categoryMovies = data.results;
+          emit(GetMoviesByCategoryLoaded(movies: categoryMovies ?? []));
+        },
+      );
+    });
+  }
 
-    await Future.delayed(const Duration(seconds: 4));
-    movies = dummyMovies;
-    emit(GetMoviesByCategoryLoaded(movies: movies ?? []));
+  void getMoviePopular() async {
+    popularMovies = null;
+
+    _getMoviesPopularUseCase(const GetMoviesPaginationParam()).then((result) {
+      result.fold(
+        (failure) => emit(GetMoviesPopularError(message: failure.message)),
+        (data) {
+          popularMovies = data.results;
+          emit(GetMoviesPopularLoaded(movies: popularMovies ?? []));
+        },
+      );
+    });
   }
 
   void getTopRatedMovies(int page) async {
     emit(GetTopRatedMoviesLoading());
 
-    await Future.delayed(const Duration(seconds: 3));
-    emit(GetTopRatedMoviesLoaded(
-      movies: BaseModel(
-        page: page,
-        totalPages: 10,
-        results: dummyMovies,
-      ),
-    ));
+    _getMoviesTopRatedUseCase(GetMoviesPaginationParam(
+      page: page,
+    )).then((result) {
+      result.fold(
+        (failure) => emit(GetTopRatedMoviesError(message: failure.message)),
+        (data) => emit(GetTopRatedMoviesLoaded(movies: data)),
+      );
+    });
   }
 }

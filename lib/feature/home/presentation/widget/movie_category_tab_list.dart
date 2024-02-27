@@ -5,7 +5,7 @@ import '../../domain/model/category_model.dart';
 import 'movie_category_tab.dart';
 
 class MovieCategoryTabList extends StatelessWidget {
-  final CategoryModel selectedCategory;
+  final CategoryModel? selectedCategory;
   final List<CategoryModel>? categories;
   final OnCategoryItemTap onTap;
 
@@ -38,7 +38,7 @@ class MovieCategoryTabList extends StatelessWidget {
                 return MovieCategoryTab(
                   category: category,
                   onTap: onTap,
-                  isSelected: category.id == selectedCategory.id,
+                  isSelected: category.id == selectedCategory?.id,
                 );
               },
               padding: const EdgeInsets.symmetric(horizontal: 16),
