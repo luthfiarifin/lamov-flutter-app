@@ -133,6 +133,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         return MovieBannerCarousel(
           movies: context.read<HomeCubit>().bannerMovies,
+          onTap: (d) => _navigateToDetail(d, NavigationSource.banner),
         );
       },
     );

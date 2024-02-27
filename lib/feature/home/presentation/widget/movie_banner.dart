@@ -7,12 +7,16 @@ import '../../../../core/presentation/extension/build_context_extension.dart';
 import '../../../../core/presentation/widget/image_network.dart';
 import '../../../../core/presentation/widget/shimmer_widget.dart';
 
+typedef OnTapMovieBanner = void Function(MovieModel model);
+
 class MovieBannerCarousel extends StatelessWidget {
   final List<MovieModel>? movies;
+  final OnTapMovieBanner onTap;
 
   const MovieBannerCarousel({
     super.key,
     required this.movies,
+    required this.onTap,
   });
 
   @override
@@ -32,7 +36,10 @@ class MovieBannerCarousel extends StatelessWidget {
     return FlutterCarousel.builder(
       itemCount: movies!.length,
       itemBuilder: (_, index, __) {
-        return MovieBanner(movie: movies![index]);
+        return MovieBanner(
+          movie: movies![index],
+          onTap: onTap,
+        );
       },
       options: _carouselOptions(),
     );
@@ -64,53 +71,59 @@ class MovieBanner extends StatelessWidget {
   const MovieBanner({
     super.key,
     required this.movie,
+    required this.onTap,
   });
 
+  final OnTapMovieBanner onTap;
   final MovieModel movie;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return InkWell(
+      onTap: () => onTap(movie),
       borderRadius: BorderRadius.circular(16),
-      child: Stack(
-        children: [
-          ImageNetwork(
-            movie.backdropPath?.w500Image ?? '',
-            fit: BoxFit.cover,
-            height: context.height,
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 16,
-                right: 16,
-                left: 16,
-              ),
-              color: Colors.black.withOpacity(0.3),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _text(
-                    context,
-                    text: movie.title,
-                    style: context.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Stack(
+          children: [
+            ImageNetwork(
+              movie.backdropPath?.w500Image ?? '',
+              fit: BoxFit.cover,
+              height: context.height,
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  bottom: 16,
+                  right: 16,
+                  left: 16,
+                ),
+                color: Colors.black.withOpacity(0.3),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _text(
+                      context,
+                      text: movie.title,
+                      style: context.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  _text(
-                    context,
-                    text: movie.overview,
-                    style: context.labelSmall,
-                  ),
-                ],
+                    _text(
+                      context,
+                      text: movie.overview,
+                      style: context.labelSmall,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
