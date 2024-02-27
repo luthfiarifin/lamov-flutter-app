@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config/di/injection.dart';
 import '../../../../core/domain/common/model/model.dart';
@@ -201,6 +202,7 @@ class ReviewItem extends StatelessWidget {
       styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
         p: context.labelMedium,
       ),
+      onTapLink: (text, href, title) => launchUrl(Uri.parse(href ?? '')),
     );
   }
 
