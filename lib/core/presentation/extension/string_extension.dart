@@ -1,7 +1,10 @@
 import 'package:intl/intl.dart';
 
+const String normalInputFormat = 'yyyy-MM-dd';
+const String timeInputFormat = 'yyyy-MM-dd\'T\'HH:mm:ss';
+
 extension DateExtensionString on String {
-  String? formatDate({
+  String formatDate({
     String outputType = 'MMM dd, yyyy',
     String inputType = 'yyyy-MM-dd',
     bool isLocalTimeZone = false,

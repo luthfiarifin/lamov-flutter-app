@@ -37,6 +37,19 @@ abstract class _$AppRouter extends RootStackRouter {
         )),
       );
     },
+    DetailReviewRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<DetailReviewRouteArgs>(
+          orElse: () => DetailReviewRouteArgs(id: pathParams.getInt('id')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: DetailReviewPage(
+          id: args.id,
+          key: args.key,
+        )),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -101,6 +114,45 @@ class DetailRouteArgs {
   @override
   String toString() {
     return 'DetailRouteArgs{key: $key, id: $id, title: $title, imageUrl: $imageUrl, source: $source}';
+  }
+}
+
+/// generated route for
+/// [DetailReviewPage]
+class DetailReviewRoute extends PageRouteInfo<DetailReviewRouteArgs> {
+  DetailReviewRoute({
+    required int id,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          DetailReviewRoute.name,
+          args: DetailReviewRouteArgs(
+            id: id,
+            key: key,
+          ),
+          rawPathParams: {'id': id},
+          initialChildren: children,
+        );
+
+  static const String name = 'DetailReviewRoute';
+
+  static const PageInfo<DetailReviewRouteArgs> page =
+      PageInfo<DetailReviewRouteArgs>(name);
+}
+
+class DetailReviewRouteArgs {
+  const DetailReviewRouteArgs({
+    required this.id,
+    this.key,
+  });
+
+  final int id;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'DetailReviewRouteArgs{id: $id, key: $key}';
   }
 }
 

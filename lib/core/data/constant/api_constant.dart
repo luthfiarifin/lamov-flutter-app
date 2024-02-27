@@ -3,6 +3,7 @@ class ApiConstant {
   static const apiKey = '1e924ebb18bb8856e9245213d420cbcb';
 
   static const movie = 'movie';
+  static const reviews = 'reviews';
   static const genreMovieList = 'genre/$movie/list';
   static const movieNowPlaying = '$movie/now_playing';
   static const moviePopular = '$movie/popular';

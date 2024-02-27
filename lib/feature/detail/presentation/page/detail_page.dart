@@ -5,9 +5,9 @@ import 'package:gap/gap.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../config/di/injection.dart';
+import '../../../../config/router/app_router.dart';
 import '../../../../core/data/constant/url_constant.dart';
 import '../../../../core/domain/common/model/model.dart';
-import '../../../../core/domain/common/model/movie_credits_casts_model.dart';
 import '../../../../core/presentation/extension/extension.dart';
 import '../../../../core/presentation/widget/widget.dart';
 import '../cubit/cubit.dart';
@@ -257,6 +257,8 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void _navigateToReview() {
-    // TODO: navigate to review
+    context.router.push(
+      DetailReviewRoute(id: widget.id),
+    );
   }
 }
