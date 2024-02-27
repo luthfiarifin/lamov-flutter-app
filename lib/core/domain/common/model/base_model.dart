@@ -1,6 +1,6 @@
 class BaseModel<T> {
-  final int page;
-  final int totalPages;
+  final int? page;
+  final int? totalPages;
   final List<T> results;
 
   const BaseModel({
