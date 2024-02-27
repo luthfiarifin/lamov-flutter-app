@@ -2,11 +2,10 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/data/data.dart';
 import '../../../../core/domain/common/model/model.dart';
-import '../../domain/model/model.dart';
 import '../../domain/param/param.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<List<CategoryModel>> getMovieGenres();
+  Future<List<GenreModel>> getMovieGenres();
   Future<BaseModel<MovieModel>> getNowPlaying(GetMoviesPaginationParam param);
   Future<BaseModel<MovieModel>> getDiscover(GetMoviesPaginationParam param);
   Future<BaseModel<MovieModel>> getPopular(GetMoviesPaginationParam param);
@@ -22,12 +21,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   });
 
   @override
-  Future<List<CategoryModel>> getMovieGenres() {
+  Future<List<GenreModel>> getMovieGenres() {
     return client.get(
       ApiConstant.genreMovieList,
       converter: (json) =>
           (json['genres'] as List<dynamic>?)
-              ?.map<CategoryModel>((c) => CategoryModel.fromJson(c))
+              ?.map<GenreModel>((c) => GenreModel.fromJson(c))
               .toList() ??
           [],
     );

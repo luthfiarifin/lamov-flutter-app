@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../domain/model/category_model.dart';
+import '../../../../core/domain/common/model/genre_model.dart';
 import 'movie_category_tab.dart';
 
 class MovieCategoryTabList extends StatelessWidget {
-  final CategoryModel? selectedCategory;
-  final List<CategoryModel>? categories;
+  final GenreModel? selectedCategory;
+  final List<GenreModel>? categories;
   final OnCategoryItemTap onTap;
 
   const MovieCategoryTabList({

@@ -4,11 +4,10 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/data/data.dart';
 import '../../../../core/domain/common/model/model.dart';
 import '../../data/datasource/datasource.dart';
-import '../../domain/model/model.dart';
 import '../../domain/param/param.dart';
 
 abstract class HomeRepository {
-  Future<Either<Failure, List<CategoryModel>>> getMovieGenres();
+  Future<Either<Failure, List<GenreModel>>> getMovieGenres();
   Future<Either<Failure, BaseModel<MovieModel>>> getNowPlaying(
     GetMoviesPaginationParam param,
   );
@@ -32,7 +31,7 @@ class HomeRepositoryImpl implements HomeRepository {
   });
 
   @override
-  Future<Either<Failure, List<CategoryModel>>> getMovieGenres() {
+  Future<Either<Failure, List<GenreModel>>> getMovieGenres() {
     return RepositoryUtil.catchOrThrow(
       body: () async {
         final response = await remoteDataSource.getMovieGenres();

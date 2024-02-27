@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/domain/common/model/model.dart';
 import '../../../../core/domain/usecase.dart';
-import '../../domain/model/model.dart';
 import '../../domain/param/param.dart';
 import '../../domain/usecase/usecase.dart';
 
@@ -26,7 +25,7 @@ class HomeCubit extends Cubit<HomeState> {
     this._getMoviesTopRatedUseCase,
   ) : super(HomeInitial());
 
-  List<CategoryModel>? categories;
+  List<GenreModel>? categories;
   List<MovieModel>? bannerMovies;
   List<MovieModel>? categoryMovies;
   List<MovieModel>? popularMovies;
@@ -60,7 +59,7 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  void getMovieByCategory(CategoryModel selected) async {
+  void getMovieByCategory(GenreModel selected) async {
     categoryMovies = null;
 
     emit(GetMoviesByCategoryLoading());

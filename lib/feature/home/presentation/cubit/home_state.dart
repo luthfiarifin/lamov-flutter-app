@@ -30,7 +30,7 @@ final class GetBannerMoviesError extends HomeState {
 final class GetCategoryLoading extends HomeState {}
 
 final class GetCategoryLoaded extends HomeState {
-  final List<CategoryModel> categories;
+  final List<GenreModel> categories;
 
   const GetCategoryLoaded({
     required this.categories,

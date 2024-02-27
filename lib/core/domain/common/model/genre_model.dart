@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'category_model.g.dart';
+part 'genre_model.g.dart';
 
 @JsonSerializable()
-class CategoryModel extends Equatable {
+class GenreModel extends Equatable {
   final int id;
   final String name;
 
-  const CategoryModel({
+  const GenreModel({
     required this.id,
     required this.name,
   });
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
-      _$CategoryModelFromJson(json);
+  factory GenreModel.fromJson(Map<String, dynamic> json) =>
+      _$GenreModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CategoryModelToJson(this);
+  Map<String, dynamic> toJson() => _$GenreModelToJson(this);
 
   @override
   List<Object?> get props => [id, name];

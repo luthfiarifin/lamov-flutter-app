@@ -7,10 +7,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../../config/di/injection.dart';
-import '../../../../core/domain/common/model/movie_model.dart';
+import '../../../../config/router/app_router.dart';
 import '../../../../core/presentation/enum/navigation_source.dart';
 import '../../../../core/presentation/extension/build_context_extension.dart';
-import '../../domain/model/model.dart';
+import '../../../../core/domain/common/model/model.dart';
 import '../cubit/home_cubit.dart';
 import '../widget/widget.dart';
 
@@ -31,7 +31,7 @@ class HomePage extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _HomePageState extends State<HomePage> {
-  CategoryModel? _selectedCategory;
+  GenreModel? _selectedCategory;
 
   final PagingController<int, MovieModel> _pagingController = PagingController(
     firstPageKey: 1,
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
       current is GetMoviesPopularLoading ||
       current is GetMoviesPopularError;
 
-  void _onCategoryTap(CategoryModel category) {
+  void _onCategoryTap(GenreModel category) {
     _selectedCategory = category;
 
     _getMovieByCategory();
@@ -264,7 +264,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _navigateToDetail(MovieModel post, NavigationSource source) {
-    // TODO: implement navigation
+    context.router.push(
+      DetailRoute(
+        id: post.id,
+        title: post.title,
+        imageUrl: post.posterPath,
+        source: source.value,
+      ),
+    );
   }
 
   void _listenPagingController() {
@@ -299,7 +306,7 @@ class _HomePageState extends State<HomePage> {
     if (isLastPage) {
       _pagingController.appendLastPage(state.movies.results);
     } else {
-      final nextPageKey = state.movies.page + 1;
+      final nextPageKey = (state.movies.page ?? 0) + 1;
       _pagingController.appendPage(state.movies.results, nextPageKey);
     }
   }

@@ -47,11 +47,14 @@ class MovieItem extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: ImageNetwork(
-            movie.posterPath?.w500Image ?? '',
-            fit: BoxFit.cover,
-            width: width,
-            height: _imageHeight,
+          child: Hero(
+            tag: '${source.value}-${movie.posterPath}',
+            child: ImageNetwork(
+              movie.posterPath?.w500Image ?? '',
+              fit: BoxFit.cover,
+              width: width,
+              height: _imageHeight,
+            ),
           ),
         ),
         const SizedBox(

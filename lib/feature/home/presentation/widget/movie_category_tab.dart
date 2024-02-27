@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/extension/build_context_extension.dart';
 import '../../../../core/presentation/widget/shimmer_widget.dart';
-import '../../domain/model/model.dart';
+import '../../../../core/domain/common/model/model.dart';
 
-typedef OnCategoryItemTap = Function(CategoryModel category);
+typedef OnCategoryItemTap = Function(GenreModel category);
 
 class MovieCategoryTab extends StatelessWidget {
-  final CategoryModel category;
+  final GenreModel category;
   final OnCategoryItemTap onTap;
   final bool isSelected;
 
