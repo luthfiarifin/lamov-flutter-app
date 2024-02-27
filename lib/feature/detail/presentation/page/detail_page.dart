@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../config/di/injection.dart';
@@ -66,6 +67,9 @@ class _DetailPageState extends State<DetailPage> {
               background: _imageBackground(),
               titlePadding: const EdgeInsets.only(),
             ),
+            actions: [
+              _shareIcon(),
+            ],
             pinned: true,
           ),
         ],
@@ -83,6 +87,14 @@ class _DetailPageState extends State<DetailPage> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _shareIcon() {
+    return IconButton(
+      tooltip: 'Share',
+      icon: const Icon(Icons.ios_share_rounded),
+      onPressed: _onShareClicked,
     );
   }
 
@@ -260,5 +272,9 @@ class _DetailPageState extends State<DetailPage> {
     context.router.push(
       DetailReviewRoute(id: widget.id),
     );
+  }
+
+  void _onShareClicked() {
+    Share.shareUri(Uri.parse('${UrlConstant.webMovieUrl}${widget.id}'));
   }
 }
