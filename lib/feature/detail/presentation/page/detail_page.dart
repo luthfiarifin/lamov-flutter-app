@@ -14,7 +14,6 @@ import '../../../../core/presentation/widget/widget.dart';
 import '../cubit/cubit.dart';
 import '../widget/actor_widget.dart';
 import '../widget/chip_attribute.dart';
-import '../widget/loading_widget.dart';
 
 @RoutePage()
 class DetailPage extends StatefulWidget implements AutoRouteWrapper {

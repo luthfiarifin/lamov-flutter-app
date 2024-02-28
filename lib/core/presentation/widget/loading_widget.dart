@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../core/presentation/extension/extension.dart';
+import '../extension/extension.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({

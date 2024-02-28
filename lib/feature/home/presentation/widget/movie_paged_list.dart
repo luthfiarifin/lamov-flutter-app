@@ -3,6 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../core/domain/common/model/movie_model.dart';
 import '../../../../core/presentation/enum/navigation_source.dart';
+import '../../../../core/presentation/widget/loading_widget.dart';
 import 'movie_item.dart';
 
 class MoviePagedList extends StatelessWidget {
@@ -33,10 +34,10 @@ class MoviePagedList extends StatelessWidget {
             );
           },
           newPageProgressIndicatorBuilder: (context) {
-            return _shimmer();
+            return _loadingWidget();
           },
           firstPageProgressIndicatorBuilder: (context) {
-            return _shimmer();
+            return _loadingWidget();
           },
         ),
         crossAxisCount: 2,
@@ -46,8 +47,7 @@ class MoviePagedList extends StatelessWidget {
     );
   }
 
-  Widget _shimmer() {
-    // TODO: fix shimmer
-    return const MovieItemShimmer();
+  Widget _loadingWidget() {
+    return const LoadingWidget();
   }
 }
