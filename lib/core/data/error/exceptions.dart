@@ -1,15 +1,23 @@
-abstract class BaseException implements Exception {
+import 'package:equatable/equatable.dart';
+
+abstract class BaseException extends Equatable implements Exception {
   final String? message;
 
-  BaseException(this.message);
+  const BaseException(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class RemoteException extends BaseException {
   final int? status;
 
-  RemoteException({String? message, this.status}) : super(message);
+  const RemoteException({String? message, this.status}) : super(message);
+
+  @override
+  List<Object?> get props => super.props..add(status);
 }
 
 class LocalException extends BaseException {
-  LocalException({String? message}) : super(message);
+  const LocalException({String? message}) : super(message);
 }

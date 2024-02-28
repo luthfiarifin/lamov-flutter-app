@@ -36,9 +36,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<BaseModel<MovieModel>> getNowPlaying(GetMoviesPaginationParam param) {
     return client.get(
       ApiConstant.movieNowPlaying,
-      queryParameters: {
-        'page': param.page,
-      },
+      queryParameters: param.toJson(),
       converter: (e) => BaseModel.fromJson(
         e,
         (e) => MovieModel.fromJson(e),
@@ -50,10 +48,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<BaseModel<MovieModel>> getDiscover(GetMoviesPaginationParam param) {
     return client.get(
       ApiConstant.discoverMovie,
-      queryParameters: {
-        'page': param.page,
-        'with_genres': '${param.categoryId}',
-      },
+      queryParameters: param.toJson(),
       converter: (e) => BaseModel.fromJson(
         e,
         (e) => MovieModel.fromJson(e),
@@ -65,9 +60,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<BaseModel<MovieModel>> getPopular(GetMoviesPaginationParam param) {
     return client.get(
       ApiConstant.moviePopular,
-      queryParameters: {
-        'page': param.page,
-      },
+      queryParameters: param.toJson(),
       converter: (e) => BaseModel.fromJson(
         e,
         (e) => MovieModel.fromJson(e),
@@ -79,9 +72,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<BaseModel<MovieModel>> getTopRated(GetMoviesPaginationParam param) {
     return client.get(
       ApiConstant.movieTopRated,
-      queryParameters: {
-        'page': param.page,
-      },
+      queryParameters: param.toJson(),
       converter: (e) => BaseModel.fromJson(
         e,
         (e) => MovieModel.fromJson(e),

@@ -14,4 +14,11 @@ class GetMoviesPaginationParam extends Equatable {
         page,
         categoryId,
       ];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'page': page,
+      if (categoryId != null) 'with_genres': categoryId,
+    };
+  }
 }

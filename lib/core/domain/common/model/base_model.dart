@@ -1,4 +1,6 @@
-class BaseModel<T> {
+import 'package:equatable/equatable.dart';
+
+class BaseModel<T> extends Equatable {
   final int? page;
   final int? totalPages;
   final List<T> results;
@@ -27,4 +29,11 @@ class BaseModel<T> {
       'results': results,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        page,
+        totalPages,
+        results,
+      ];
 }

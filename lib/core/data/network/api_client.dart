@@ -9,8 +9,8 @@ typedef ResponseConverter<T> = T Function(dynamic response);
 class ApiClient {
   late Dio _dio;
 
-  ApiClient() {
-    _dio = _createDefaultDio();
+  ApiClient({Dio? dio}) {
+    _dio = dio ?? _createDefaultDio();
   }
 
   Dio _createDefaultDio({

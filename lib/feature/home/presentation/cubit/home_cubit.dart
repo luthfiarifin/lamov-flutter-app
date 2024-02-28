@@ -78,6 +78,7 @@ class HomeCubit extends Cubit<HomeState> {
   void getMoviePopular() async {
     popularMovies = null;
 
+    emit(GetMoviesPopularLoading());
     _getMoviesPopularUseCase(const GetMoviesPaginationParam()).then((result) {
       result.fold(
         (failure) => emit(GetMoviesPopularError(message: failure.message)),
