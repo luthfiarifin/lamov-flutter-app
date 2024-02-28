@@ -40,12 +40,15 @@ dependencies:
 
 dev_dependencies:
   auto_route_generator: ^7.3.2
+  bloc_test: ^9.1.6
   build_runner: ^2.4.8
   flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
+  http_mock_adapter: ^0.6.1
   injectable_generator: ^2.4.1
   json_serializable: ^6.7.1
+  mockito: ^5.4.4
 
 flutter:
   uses-material-design: true
